@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; background: #111; color: #e0e0e0; }
+    nav { background: #000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    nav a { color: #aaa; text-decoration: none; margin-left: 1.5rem; }
+    nav a:hover { color: #2ecc71; }
+    nav .brand { color: #2ecc71; font-size: 1.25rem; font-weight: bold; }
+    .hero { text-align: center; padding: 6rem 2rem; background: linear-gradient(135deg, #000, #1a1a1a); color: #fff; }
+    .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+    .hero p { font-size: 1.2rem; color: #aaa; margin-bottom: 2rem; }
+    .btn { display: inline-block; padding: 0.75rem 2rem; background: #2ecc71; color: #000; font-weight: bold; text-decoration: none; border-radius: 4px; }
+    .btn:hover { background: #27ae60; }
+  </style>
+</head>
+<body>
+  <nav>
+    <span class="brand">James Lewis' Finnhub.io App</span>
+    <div>
+      <a href="/">Home</a>
+      <a href="/login">Log In</a>
+      <a href="/signup">Sign Up</a>
+    </div>
+  </nav>
+  <div class="hero">
+    <h1>Welcome to James Lewis' Finnhub.io App</h1>
+    <p>A simple Express.js application that allows logged in users to look up stock information via finnhub.io.</p>
+    <a href="/signup" class="btn">Sign Up</a>
+  </div>
+</body>
+</html>

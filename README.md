@@ -42,6 +42,19 @@ docker compose up --build
 
 The app will be available at `http://localhost:3000` once MySQL passes its health check.
 
+## Running Tests
+
+Install dev dependencies and run the test suite:
+
+```sh
+npm install
+npm test
+```
+
+Tests use [Jest](https://jestjs.dev/) and [Supertest](https://github.com/ladakh/supertest) to exercise the signup, login, and logout routes without requiring a running database.
+
+> **Note:** Node.js v14.15+ is required. 
+
 ## Environment variables
 
 | Variable           | Default       | Description                  |

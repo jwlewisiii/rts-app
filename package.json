@@ -1,0 +1,23 @@
+{
+  "name": "go-api",
+  "version": "1.0.0",
+  "description": "Basic Express.js backend",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "jest --verbose"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.21.0",
+    "express-mysql-session": "^3.0.3",
+    "express-session": "^1.18.0",
+    "finnhub": "^2.0.14",
+    "mysql2": "^3.11.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4"
+  }
+}

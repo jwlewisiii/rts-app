@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; background: #111; color: #e0e0e0; }
+    nav { background: #000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    nav a { color: #aaa; text-decoration: none; margin-left: 1.5rem; }
+    nav a:hover { color: #2ecc71; }
+    nav .brand { color: #2ecc71; font-size: 1.25rem; font-weight: bold; }
+    .dashboard { max-width: 900px; margin: 2rem auto; padding: 0 2rem; }
+    .dashboard h1 { margin-bottom: 1.5rem; color: #fff; }
+    .examples { background: #1a1a1a; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); border: 1px solid #2a2a2a; }
+    .examples h2 { margin-bottom: 1rem; color: #fff; }
+    .examples ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .examples li { background: #222; border: 1px solid #333; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; transition: background 0.15s, border-color 0.15s; }
+    .examples li:hover { background: #2ecc71; color: #000; border-color: #2ecc71; font-weight: bold; }
+    .lookup { background: #1a1a1a; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); border: 1px solid #2a2a2a; margin-bottom: 2rem; }
+    .lookup h2 { margin-bottom: 1rem; color: #fff; }
+    .lookup form { display: flex; gap: 0.75rem; }
+    .lookup input { flex: 1; padding: 0.6rem; border: 1px solid #333; border-radius: 4px; font-size: 1rem; background: #222; color: #fff; text-transform: uppercase; }
+    .lookup button { padding: 0.6rem 1.5rem; background: #2ecc71; color: #000; font-weight: bold; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; }
+    .lookup button:hover { background: #27ae60; }
+    .result { margin-top: 1rem; font-size: 1.2rem; }
+    .result .price { color: #2ecc71; font-weight: bold; font-size: 1.5rem; }
+    .result .error { color: #e74c3c; }
+  </style>
+</head>
+<body>
+  <nav>
+    <span class="brand">James Lewis' Finnhub.io App</span>
+    <div>
+      <a href="/">Home</a>
+      <a href="/dashboard">Dashboard</a>
+      <form action="/api/logout" method="POST" style="display:inline; margin-left:1.5rem;">
+        <button type="submit" style="background:none; border:none; color:#aaa; cursor:pointer; font:inherit;">Log Out</button>
+      </form>
+    </div>
+  </nav>
+  <div class="dashboard">
+    <h1>Dashboard</h1>
+    <div class="lookup">
+      <h2>Stock Lookup</h2>
+      <form id="quoteForm">
+        <input type="text" id="symbol" placeholder="Enter symbol (e.g. AAPL)" required>
+        <button type="submit">Look Up</button>
+      </form>
+      <div id="result" class="result"></div>
+    </div>
+    <div class="examples">
+      <h2>Popular Symbols</h2>
+      <ul id="symbolList">
+        <li>AAPL</li>
+        <li>MSFT</li>
+        <li>GOOGL</li>
+        <li>AMZN</li>
+        <li>TSLA</li>
+        <li>NVDA</li>
+        <li>META</li>
+        <li>JPM</li>
+        <li>V</li>
+        <li>DIS</li>
+      </ul>
+    </div>
+  </div>
+  <script>
+    document.getElementById('symbolList').addEventListener('click', (e) => {
+      if (e.target.tagName === 'LI') {
+        document.getElementById('symbol').value = e.target.textContent;
+        document.getElementById('quoteForm').requestSubmit();
+      }
+    });
+
+    document.getElementById('quoteForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const symbol = document.getElementById('symbol').value.trim();
+      const resultDiv = document.getElementById('result');
+      resultDiv.textContent = 'Loading...';
+
+      try {
+        const res = await fetch('/api/quote', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ symbol }),
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          resultDiv.innerHTML = `<span>${data.symbol} opening price: </span><span class="price">$${data.openPrice.toFixed(2)}</span>`;
+        } else {
+          resultDiv.innerHTML = `<span class="error">${data.error}</span>`;
+        }
+      } catch (err) {
+        resultDiv.innerHTML = '<span class="error">Failed to fetch quote</span>';
+      }
+    });
+  </script>
+</body>
+</html>
